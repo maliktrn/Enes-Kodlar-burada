@@ -10,6 +10,13 @@ long mesafe;
 
 void setup()
 {
+pinMode(13,OUTPUT);   //sağ  motor 
+pinMode(12,OUTPUT);   //sol motor
+pinMode(11,OUTPUT);   //sağ motor2 
+pinMode(6,OUTPUT);   //sol motor 2
+Serial.begin(9600);
+
+
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
   pinMode(a, OUTPUT);
@@ -73,9 +80,41 @@ void loop()
   }
   else
   {
-    digitalWrite(buzzerPin,HIGH);
-    delay(1000);
-    digitalWrite(buzzerPin,LOW);
-    delay(1000);
+    digitalWrite(a,HIGH);
   }
+  
+  
+  if(Serial.available()){
+  t = Serial.read();
+  Serial.println(t);
+}
+ 
+if(t == 'F'){    
+  digitalWrite(12,HIGH);
+  digitalWrite(10,HIGH);
+}
+ 
+else if(t == 'G'){      //move reverse (all motors rotate in reverse direction)
+  digitalWrite(13,HIGH); 
+  digitalWrite(11,HIGH);
+}
+ 
+else if(t == 'L'){      //turn left (right side motors rotate in forward direction, left side motors doesn't rotate)
+  digitalWrite(12,HIGH);
+}
+ 
+else if(t == 'R'){      //turn right (left side motors rotate in forward direction, right side motors doesn't rotate)
+  digitalWrite(10,HIGH);
+}
+
+ 
+else if(t == 'S'){      //STOP (all motors stop)
+  digitalWrite(13,LOW);
+  digitalWrite(12,LOW);
+  digitalWrite(11,LOW);
+  digitalWrite(10,LOW);
+}
+
+
+
 }
